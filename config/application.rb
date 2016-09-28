@@ -26,7 +26,7 @@ module PgateRecv
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
-    config.kaifu = config_for :kaifu
+    #config.kaifu = config_for :kaifu
 
   end
 end
