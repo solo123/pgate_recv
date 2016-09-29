@@ -26,8 +26,7 @@ class RecvPostController < ApplicationController
     rv.save
 
     if rv.check_is_valid_notify
-      biz = Biz::WebBiz.new
-      biz.notify_client(rv.kaifu_result)
+      Biz::WebBiz.notify_client(rv.kaifu_result)
     end
   end
 
