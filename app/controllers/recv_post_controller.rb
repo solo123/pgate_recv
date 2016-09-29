@@ -25,8 +25,12 @@ class RecvPostController < ApplicationController
     rv.status = 0
     rv.save
 
-    if rv.check_is_valid_notify
-      Biz::WebBiz.notify_client(rv.kaifu_result)
+    case rv.remote_host
+    when AppConfig.get('kaifu.host.notify')
+      if rv.check_is_valid_notify
+        Biz::WebBiz.notify_client(rv.kaifu_result)
+      end
+    when AppConfig.get('tfb.host.notify')
     end
   end
 
