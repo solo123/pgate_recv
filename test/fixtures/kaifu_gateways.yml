@@ -1,0 +1,22 @@
+one:
+  id: 77
+  client_payment_id: 87
+  send_time: '20160922160632'
+  send_seq_id: P1000087
+  trans_type: B001
+  organization_id: puerhanda
+  pay_pass: '1'
+  img_url: weixin://wxpay/bizpayurl?pr=c9MDF8O
+  trans_amt: '1000'
+  fee: '33'
+  card_no: '6225886556455713'
+  name: 梁益华
+  id_num: '450303197005030016'
+  body: 普尔测试 - 测试商品
+  notify_url: http://112.74.184.236:8010/recv_notify
+  callback_url: http://a.pooulcloud.cn/test_pages/pay
+  resp_code: '00'
+  resp_desc: "[server] 获取成功"
+  mac: '34353537'
+  finish_time:
+  status: 8

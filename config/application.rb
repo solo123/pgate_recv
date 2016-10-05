@@ -27,6 +27,5 @@ module PgateRecv
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     #config.kaifu = config_for :kaifu
-
   end
 end

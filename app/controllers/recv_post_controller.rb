@@ -21,17 +21,13 @@ class RecvPostController < ApplicationController
     rv.remote_host = request.headers['remote-addr']
     rv.header = header_text
     rv.params = request.params.to_s
+    rv.data = params['data']
     rv.detail = request.headers.to_h.ai(html: true)
     rv.status = 0
     rv.save
 
-    case rv.remote_host
-    when AppConfig.get('kaifu.host.notify')
-      if rv.check_is_valid_notify
-        Biz::WebBiz.notify_client(rv.kaifu_result)
-      end
-    when AppConfig.get('tfb.host.notify')
-    end
+    n = Biz::TransBiz.create_notify(rv)
+    SendNotifyJob.perform_async(n) if n
   end
 
 
