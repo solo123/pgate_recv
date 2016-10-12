@@ -7,14 +7,18 @@ class RecvPostController < ApplicationController
     save_to_db(request, 'callback')
     render plain: 'true'
   end
+  def do_notify
+    save_to_db(request, params[:sender])
+    render plain: 'OK'
+  end
   def save_to_db(request, method)
-    header_text = request.headers["REQUEST_METHOD"] + ' '
-      + request.headers["HTTP_HOST"] + request.headers["PATH_INFO"] + " "
-      + request.headers["SERVER_PROTOCOL"].to_s + "\n"
-      + "User-Agent: " + request.headers["User-Agent"].to_s + "\n"
-      + "Accept: " + request.headers["Accept"] + "\n"
-      + "Content-Type: " + request.headers['Content-Type'] + "\n"
-      + "Content-Length: " + request.headers['Content-Length'] + "\n"
+    header_text = request.headers["REQUEST_METHOD"] + ' ' \
+      + request.headers["HTTP_HOST"] + request.headers["PATH_INFO"] + " "\
+      + request.headers["SERVER_PROTOCOL"].to_s + "\n"\
+      + "User-Agent: " + request.headers["User-Agent"].to_s + "\n"\
+      + "Accept: " + request.headers["Accept"] + "\n"\
+      + "Content-Type: " + request.headers['Content-Type'].to_s + "\n"\
+      + "Content-Length: " + request.headers['Content-Length'].to_s + "\n"
 
     rv = RecvPost.new
     rv.method = method
