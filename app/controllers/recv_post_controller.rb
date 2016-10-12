@@ -9,7 +9,12 @@ class RecvPostController < ApplicationController
   end
   def do_notify
     save_to_db(request, params[:sender])
-    render plain: 'OK'
+    if params[:sender] == 'tfb'
+      txt = 'SUCCESS'
+    else
+      txt = 'true'
+    end
+    render plain: txt
   end
   def save_to_db(request, method)
     header_text = request.headers["REQUEST_METHOD"] + ' ' \
