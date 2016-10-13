@@ -1,37 +1,19 @@
 class SendNotifyJob < ApplicationJob
   queue_as :default
 
+  #params: n = client_payment.id
   def perform(*args)
     n = args[0]
-    return unless n
-    return if n.status && n.status >= 7
-    unless n.notify_url =~ URI.regexp
-      n.status = 7
-      n.message = '非法的notify_url'
-      n.save
-      return
-    end
+    return false unless n > 0
 
-    n.message = '' unless n.message
-    begin
-      uri = URI(n.notify_url)
-      resp = Net::HTTP.post_form(uri, data: n.data)
-      if resp.is_a?(Net::HTTPOK)
-        n.status = 8
-        n.save
-      else
-        n.status += 1
-        n.message += "\n[#{resp.code}] #{resp.message}"
-        n.save
-      end
-    rescue => e
-      n.message += "\n" + e.message
-      n.status += 1
-      n.save
+    c = ClientPayment.find(n)
+    return false unless c && c.notify_status != 8
+
+    Biz::PaymentBiz.send_notify(c)
+    if c.notify_status != 8 && c.notify_times < 6
+      wait_times = [60, 120, 300, 1200, 3600, 7200, 36000]
+      SendNotifyJob.perform_in(wait_times[c.notify_times], n)
     end
-    if n.status < 7
-      wait_times = [1, 2, 5, 20, 60, 120, 600]
-      SendNotifyJob.perform_in(wait_times[n.status], n)
-    end
+    true
   end
 end

@@ -35,8 +35,11 @@ class RecvPostController < ApplicationController
     rv.status = 0
     rv.save
 
-    n = Biz::TransBiz.create_notify(rv)
-    SendNotifyJob.perform_async(n) if n
+    if rv.method == 'tfb'
+      ord = Biz::TfbApi.send_notify(rv)
+      SendNotifyJob.new.perform(ord.client_payment_id)
+    end
+
   end
 
 
