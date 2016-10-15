@@ -38,3 +38,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'awesome_print'
 gem 'pgate_model', path: '../pgate_model'
 gem 'sucker_punch', '~> 2.0'
+gem 'mina'
