@@ -22,6 +22,7 @@ end
 task :pull => :environment do
   queue  %[echo "-----> git pull"]
   queue  %[cd #{deploy_to}]
+  queue! %{git checkout deploy}
   queue! %{git reset --hard}
   queue! %{git pull origin deploy}
   queue  %{rm config/puma.rb}
