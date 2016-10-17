@@ -60,7 +60,7 @@ task :pull => :environment do
   queue  %{touch /home/rb/tmp/pids/pgate_recv.state}
   queue! %{pumactl restart}
 
-  queue %{echo "====== test after pull ======"}
+  queue  %{echo "====== test after pull ======"}
   queue! %{curl -X POST -d 'a=1' http://a.pooulcloud.cn:8010/notify/deploy}
 end
 
